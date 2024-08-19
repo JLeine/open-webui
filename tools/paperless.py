@@ -2,7 +2,7 @@
 title: Tool to interact with paperless documents
 author: Jonas Leine
 funding_url: https://github.com/open-webui
-version: 1.0.2
+version: 1.1.0
 license: MIT
 """
 import json
