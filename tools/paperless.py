@@ -30,7 +30,8 @@ class DocumentEncoder(json.JSONEncoder):
 class PaperlessDocumentLoader(BaseLoader):
     """Paperless document loader that retrieves all documents of a specific type and optionally by day, month and year"""
 
-    def __init__(self, documentTypeName: str, documentTagName: Optional[str] = '', url: Optional[str] = '',
+    def __init__(self, documentTypeName: Optional[str] = '', documentTagName: Optional[str] = '',
+                 correspondent: Optional[str] = '', url: Optional[str] = '',
                  token: Optional[str] = '', created_year: Optional[int] = None,
                  created_month: Optional[int] = None) -> None:
         """Initialize the loader with a document_type.
@@ -51,6 +52,7 @@ class PaperlessDocumentLoader(BaseLoader):
         self.token = token if token else ''
         self.documentTypeName = documentTypeName
         self.documentTagName = documentTagName
+        self.correspondent = correspondent
 
         # Set to current year and month if not provided
         now = datetime.now()
@@ -62,7 +64,7 @@ class PaperlessDocumentLoader(BaseLoader):
         """
         querystring = {"document_type__name__icontains": self.documentTypeName,
                        "tags__name__icontains": self.documentTagName, "created__month": self.created_month,
-                       "created_year": self.created_year}
+                       "created_year": self.created_year, "correspondent__name__icontains": self.correspondent}
 
         headers = {"Authorization": f"Token {self.token}"}
         response = requests.get(self.url, headers=headers, params=querystring)
@@ -110,16 +112,20 @@ class Tools:
     def __init__(self):
         self.valves = self.Valves()
 
-    async def get_paperless_documents(self, documentTypeName: str, documentTagName: Optional[str] = None,
-                                      created_year: Optional[int] = None, created_month: Optional[int] = None,
+    async def get_paperless_documents(self, documentTypeName: Optional[str] = None,
+                                      documentTagName: Optional[str] = None,
+                                      correspondent: Optional[str] = None,
+                                      created_year: Optional[int] = None,
+                                      created_month: Optional[int] = None,
                                       __event_emitter__: Callable[[dict], Any] = None) -> str:
         """
         Search for paperless documents and retrieve the content of relevant documents.
 
-        :param documentTypeName: The documentTypeName the user is looking for.
-        :param documentTagName: The documentTagName the user is looking for.
+        :param documentTypeName: The documentTypeName the user is looking for. If the user does not specifiy anything skip it.
+        :param documentTagName: The documentTagName the user is looking for. If the user does not specifiy anything skip it.
+        :param correspondent: The correspondent the user is looking for. If the user does not specifiy anything skip it.
         :param created_month: the month where the the documents were created as int. If he asks for June this value is then 6. If the user does not specifiy anything skip it.
-        :param created_year: the year where the the documents were created as int. If the user does not specifiy anything skip it.
+        :param created_year: the year where the the documents were created as int. If the user does not specify anything skip it.
         :return: All documents as a JSON string or an error as a string
         """
         emitter = EventEmitter(__event_emitter__)
@@ -128,13 +134,14 @@ class Tools:
             await emitter.progress_update(f"Getting documents for {documentTypeName}")
 
             error_message = f"Error: Invalid documentTypeName: {documentTypeName}"
-            loader = PaperlessDocumentLoader(documentTypeName=documentTypeName, documentTagName=documentTagName, url=self.valves.PAPERLESS_URL,
+            loader = PaperlessDocumentLoader(documentTypeName=documentTypeName, documentTagName=documentTagName,
+                                             url=self.valves.PAPERLESS_URL,
                                              token=self.valves.PAPERLESS_TOKEN, created_month=created_month,
-                                             created_year=created_year)
-            documents = loader.load();
+                                             created_year=created_year, correspondent=correspondent)
+            documents = loader.load()
 
             if len(documents) == 0:
-                error_message = f"Query returned 0 for documentTypeName {documentTypeName} documentTag {documentTagName} month {created_month} year {created_year}"
+                error_message = f"Query returned 0 for correspondent {correspondent} documentTypeName {documentTypeName} documentTag {documentTagName} month {created_month} year {created_year}"
                 await emitter.error_update(error_message)
                 return error_message
 
@@ -149,7 +156,7 @@ class Tools:
                             "name": document["metadata"]["source"]}, }, })
 
             await emitter.success_update(
-                f"Received {len(decoded_documents)} documents for documentType {documentTypeName} documentTag {documentTagName} month {created_month} year {created_year}")
+                f"Received {len(decoded_documents)} documents for correspondent {correspondent} documentType {documentTypeName} documentTag {documentTagName} month {created_month} year {created_year}")
             return encoded_documents
         except Exception as e:
             error_message = f"Error: {str(e)}"
@@ -162,7 +169,7 @@ class PaperlessDocumentLoaderTest(unittest.IsolatedAsyncioTestCase):
         paperless_tool = Tools()
         paperless_tool.valves.PAPERLESS_URL = os.getenv("PAPERLESS_URL")
         paperless_tool.valves.PAPERLESS_TOKEN = os.getenv("PAPERLESS_API_KEY")
-        documents = await paperless_tool.get_paperless_documents(documentTypeName, "Supermarkt", 2024, 7)
+        documents = await paperless_tool.get_paperless_documents(documentTypeName, "YourTagType", "YourCorrespondent", 2024, 7)
         decoded_documents = json.loads(documents)
         self.assertEqual(len(decoded_documents), expected_documents)
 
@@ -171,7 +178,7 @@ class PaperlessDocumentLoaderTest(unittest.IsolatedAsyncioTestCase):
         self.assertTrue("Query returned 0" in response)
 
     async def test_get_documents(self):
-        documentType = "Kassenbon"
+        documentType = "YourDocumentType"
         await self.assert_document_response(documentType, 11)
 
     async def test_get_paperless_documents_with_invalid_documentTypeName(self):
