@@ -8,10 +8,9 @@ license: MIT
 """
 
 import unittest
-from typing import Callable, Any
-
 from langchain_community.document_loaders import YoutubeLoader
 from pydantic import BaseModel, Field
+from typing import Callable, Any
 
 
 class EventEmitter:
@@ -35,10 +34,12 @@ class EventEmitter:
 
 class Tools:
     class Valves(BaseModel):
-        TRANSCRIPT_LANGUAGE: str = Field(default="en,en_auto",
-                                         description="A comma-separated list of languages from highest priority to lowest.", )
-        TRANSCRIPT_TRANSLATE: str = Field(default="en",
-                                          description="The language you want the transcript to auto-translate to, if it does not already exist.", )
+        TRANSCRIPT_LANGUAGE: str = Field(
+            default="en,en_auto",
+            description="A comma-separated list of languages from highest priority to lowest.", )
+        TRANSCRIPT_TRANSLATE: str = Field(
+            default="en",
+            description="The language you want the transcript to auto-translate to, if it does not already exist.", )
         CITITATION: bool = Field(default="True", description="True or false for citation", )
 
     def __init__(self):
@@ -64,7 +65,7 @@ class Tools:
                 await emitter.error_update(error_message)
                 return error_message
             elif ("dQw4w9WgXcQ" in url):  # LLM's love passing in this url when the user doesn't provide one
-                await emitter.error_update(f"Error: No URL provided (except for Rick Roll ... is that what you want?).")
+                await emitter.error_update("Error: No URL provided (except for Rick Roll ... is that what you want?).")
                 return error_message
 
             languages = [item.strip() for item in self.valves.TRANSCRIPT_LANGUAGE.split(',')]
