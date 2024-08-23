@@ -1,8 +1,9 @@
 [tool.poetry]
-name = "open-webui-tools"
-version = "0.1.0"
+name = "jleine_open_webui_tool"
+version = "1.1.0"
 description = "A collection of open-webui-tools which I use for my own purposes."
 authors = ["Jonas Leine <j.leine@gmx.de>"]
+homepage = "https://github.com/JLeine/open-webui"
 license = "MIT"
 readme = "README.md"
 
@@ -14,10 +15,10 @@ langchain-community = "^0.2.12"
 pytube = "^15.0.0"
 python-dotenv = "^1.0.1"
 
-
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.3.2"
 flake8 = "^7.1.1"
+
 
 [build-system]
 requires = ["poetry-core"]

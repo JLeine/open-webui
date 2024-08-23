@@ -3,7 +3,7 @@ title: Youtube Transcript Provider
 description: A tool that returns the full, detailed youtube transcript in English of a passed in youtube url.
 author: Jonas Leine
 funding_url: https://github.com/open-webui
-version: 1.0.0
+version: 1.1.0
 license: MIT
 """
 
