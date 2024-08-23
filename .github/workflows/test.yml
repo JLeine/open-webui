@@ -19,10 +19,10 @@ jobs:
         env:
           PAPERLESS_URL: ${{ secrets.PAPERLESS_URL }}
           PAPERLESS_API_KEY: ${{ secrets.PAPERLESS_API_KEY }}
-          PAPERLESS_TEST_CORRESPONDENT: ${{ secrets.PAPERLESS_TEST_CORRESPONDENT }}
-          PAPERLESS_TEST_DOCUMENT_TYPE: ${{ secrets.PAPERLESS_TEST_DOCUMENT_TYPE }}
-          PAPERLESS_TEST_MONTH: ${{ secrets.PAPERLESS_TEST_MONTH }}
-          PAPERLESS_TEST_TAG: ${{ secrets.PAPERLESS_TEST_TAG }}
-          PAPERLESS_TEST_YEAR: ${{ secrets.PAPERLESS_TEST_YEAR }}
+          PAPERLESS_TEST_CORRESPONDENT: Aldi
+          PAPERLESS_TEST_DOCUMENT_TYPE: Kassenbon
+          PAPERLESS_TEST_YEAR: 2024
+          PAPERLESS_TEST_MONTH: 7
+          PAPERLESS_TEST_TAG: Discounter
         run: |
           devbox run -- task test
