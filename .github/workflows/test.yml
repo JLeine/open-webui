@@ -1,9 +1,6 @@
 name: Test
 
 on:
-  push:
-    branches:
-      - '**'
   pull_request:
     types: [opened, synchronize, reopened]
 
@@ -14,14 +11,6 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-
-      - name: Set up cache for Devbox dependencies
-        uses: actions/cache@v3
-        with:
-          path: ~/.devbox/cache
-          key: ${{ runner.os }}-devbox-${{ hashFiles('devbox.toml') }}
-          restore-keys: |
-            ${{ runner.os }}-devbox-
 
       - name: Install devbox
         uses: jetify-com/devbox-install-action@v0.11.0
