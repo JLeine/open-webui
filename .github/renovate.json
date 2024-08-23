@@ -1,0 +1,29 @@
+{
+  "extends": [
+    "config:base"
+  ],
+  "timezone": "UTC",
+  "schedule": ["at any time"],
+  "packageRules": [
+    {
+      "extends": ["schedule:weekly"],
+      "packagePatterns": ["*"],
+      "description": "Schedule updates weekly"
+    },
+    {
+      "description": "Group all poetry dependency updates",
+      "packageNames": [
+        "poetry"
+      ],
+      "groupName": "all-poetry-updates",
+      "automerge": true
+    }
+  ],
+  "pip_requirements": {
+    "enabled": false
+  },
+  "poetry": {
+    "enabled": true,
+    "fileMatch": ["pyproject.toml"]
+  }
+}
