@@ -2,7 +2,7 @@ name: CI
 
 on:
   pull_request:
-    types: [opened, synchronize, reopened]
+    types: [ opened, synchronize, reopened ]
   push:
     branches:
       - main
@@ -27,16 +27,13 @@ jobs:
   test:
     needs: lint
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-
       - name: Install devbox
         uses: jetify-com/devbox-install-action@v0.11.0
         with:
           enable-cache: true
-
       - name: Run python test
         env:
           PAPERLESS_URL: ${{ secrets.PAPERLESS_URL }}
@@ -48,3 +45,17 @@ jobs:
           PAPERLESS_TEST_TAG: Discounter
         run: |
           devbox run -- task test
+  release:
+    name: Release
+    runs-on: ubuntu-latest
+    needs: test
+    if: github.repository_owner == 'jleine' && github.event_name == 'push' && github.ref == 'refs/heads/main'
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install devbox
+        uses: jetify-com/devbox-install-action@v0.11.0
+        with:
+          enable-cache: true
+      - uses: bjoluc/semantic-release-config-poetry@v2
+        with:
+          pypi_token: ${{ secrets.PYPI_TOKEN }}
