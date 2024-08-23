@@ -35,13 +35,12 @@ jobs:
           enable-cache: true
 
       - name: Run python test
-        env:
-          PAPERLESS_URL: ${{ secrets.PAPERLESS_URL }}
-          PAPERLESS_API_KEY: ${{ secrets.PAPERLESS_API_KEY }}
-          PAPERLESS_TEST_CORRESPONDENT: Aldi
-          PAPERLESS_TEST_DOCUMENT_TYPE: Kassenbon
-          PAPERLESS_TEST_YEAR: 2024
-          PAPERLESS_TEST_MONTH: 7
-          PAPERLESS_TEST_TAG: Discounter
         run: |
+          PAPERLESS_URL=${{ secrets.PAPERLESS_URL }} \
+          PAPERLESS_API_KEY=${{ secrets.PAPERLESS_API_KEY }} \
+          PAPERLESS_TEST_CORRESPONDENT=Aldi \
+          PAPERLESS_TEST_DOCUMENT_TYPE=Kassenbon \
+          PAPERLESS_TEST_YEAR=2024 \
+          PAPERLESS_TEST_MONTH=7 \
+          PAPERLESS_TEST_TAG=Discounter \          
           devbox run -- task test
