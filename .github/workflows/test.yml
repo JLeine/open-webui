@@ -1,18 +1,30 @@
-name: Test
+name: Lint
 
 on: [push, pull_request]
 
 jobs:
-  test:
+  lint:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Set up Devbox
-        run: curl -fsSL https://jetpack.io/devbox/install.sh | bash
+      - name: Install devbox
+        uses: jetify-com/devbox-install-action@v0.11.0
+        with:
+          enable-cache: true
 
-      - name: Run tests
+      - name: Cache Devbox dependencies
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.cache/devbox
+            ~/.cache/nix
+          key: ${{ runner.os }}-devbox-${{ hashFiles('devbox.json') }}
+          restore-keys: |
+            ${{ runner.os }}-devbox-
+
+      - name: Run lint test
         run: |
-          devbox shell -- run task test
+          devbox run -- task test
