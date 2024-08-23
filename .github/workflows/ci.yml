@@ -1,11 +1,31 @@
-name: Test
+name: CI
 
 on:
+  push:
+    branches:
+      - '**'
   pull_request:
     types: [opened, synchronize, reopened]
 
 jobs:
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Install devbox
+        uses: jetify-com/devbox-install-action@v0.11.0
+        with:
+          enable-cache: true
+
+      - name: Run lint test
+        run: |
+          devbox run -- task lint
+
   test:
+    needs: lint
     runs-on: ubuntu-latest
 
     steps:
