@@ -25,4 +25,4 @@ tasks:
   lint:
     desc: "Lint the code using flake8"
     cmds:
-      - poetry run flake8
+      - poetry run flake8 open_webui_tools

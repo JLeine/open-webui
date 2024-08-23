@@ -8,13 +8,13 @@ license: MIT
 """
 import json
 import requests
-import unittest
 from datetime import datetime
 from langchain_core.document_loaders import BaseLoader
 from langchain_core.documents import Document
 from pydantic import BaseModel, Field
 from typing import Callable, Any
 from typing import Iterator, Optional
+
 
 class DocumentEncoder(json.JSONEncoder):
     def default(self, obj):
@@ -24,7 +24,8 @@ class DocumentEncoder(json.JSONEncoder):
 
 
 class PaperlessDocumentLoader(BaseLoader):
-    """Paperless document loader that retrieves all documents of a specific type and optionally by day, month and year"""
+    """Paperless document loader that retrieves all documents
+     of a specific type and optionally by day, month and year"""
 
     def __init__(self, documentTypeName: Optional[str] = '', documentTagName: Optional[str] = '',
                  correspondent: Optional[str] = '', url: Optional[str] = '',
@@ -117,11 +118,15 @@ class Tools:
         """
         Search for paperless documents and retrieve the content of relevant documents.
 
-        :param documentTypeName: The documentTypeName the user is looking for. If the user does not specifiy anything skip it.
-        :param documentTagName: The documentTagName the user is looking for. If the user does not specifiy anything skip it.
+        :param documentTypeName: The documentTypeName the user is looking for. If the user does not specifiy anything
+            skip it.
+        :param documentTagName: The documentTagName the user is looking for. If the user does not specifiy anything
+            skip it.
         :param correspondent: The correspondent the user is looking for. If the user does not specifiy anything skip it.
-        :param created_month: the month where the the documents were created as int. If he asks for June this value is then 6. If the user does not specifiy anything skip it.
-        :param created_year: the year where the the documents were created as int. If the user does not specify anything skip it.
+        :param created_month: the month where the the documents were created as int. If he asks for June this value is
+            then 6. If the user does not specifiy anything skip it.
+        :param created_year: the year where the the documents were created as int. If the user does not specify
+            anything skip it.
         :return: All documents as a JSON string or an error as a string
         """
         emitter = EventEmitter(__event_emitter__)
@@ -137,7 +142,10 @@ class Tools:
             documents = loader.load()
 
             if len(documents) == 0:
-                error_message = f"Query returned 0 for correspondent {correspondent} documentTypeName {documentTypeName} documentTag {documentTagName} month {created_month} year {created_year}"
+                error_message = f"""Query returned 0 for correspondent {correspondent}
+          documentTypeName {documentTypeName} documentTag {documentTagName}
+          month {created_month} year {created_year}
+          """
                 await emitter.error_update(error_message)
                 return error_message
 
@@ -152,7 +160,10 @@ class Tools:
                             "name": document["metadata"]["source"]}, }, })
 
             await emitter.success_update(
-                f"Received {len(decoded_documents)} documents for correspondent {correspondent} documentType {documentTypeName} documentTag {documentTagName} month {created_month} year {created_year}")
+                f"""Received {len(decoded_documents)} documents for correspondent {correspondent}
+        documentType {documentTypeName} documentTag {documentTagName}
+        month {created_month} year {created_year}""")
+
             return encoded_documents
         except Exception as e:
             error_message = f"Error: {str(e)}"

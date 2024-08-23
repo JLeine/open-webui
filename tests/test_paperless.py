@@ -20,7 +20,7 @@ class PaperlessDocumentLoaderTest(unittest.IsolatedAsyncioTestCase):
         documents = await paperless_tool.get_paperless_documents(documentTypeName, TAG, CORRESPONDENT,
                                                                  YEAR, MONTH)
         decoded_documents = json.loads(documents)
-        self.assertEqual(expected_documents,len(decoded_documents))
+        self.assertEqual(expected_documents, len(decoded_documents))
 
     async def assert_paperless_error(self, documentTypeName: str):
         response = await Tools().get_paperless_documents(documentTypeName)
