@@ -15,16 +15,6 @@ jobs:
         with:
           enable-cache: true
 
-      - name: Cache Devbox dependencies
-        uses: actions/cache@v3
-        with:
-          path: |
-            ~/.cache/devbox
-            ~/.cache/nix
-          key: ${{ runner.os }}-devbox-${{ hashFiles('devbox.json') }}
-          restore-keys: |
-            ${{ runner.os }}-devbox-
-
       - name: Run lint test
         run: |
           devbox run -- task lint
