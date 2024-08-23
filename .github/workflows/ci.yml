@@ -44,5 +44,4 @@ jobs:
           PAPERLESS_TEST_MONTH: 7
           PAPERLESS_TEST_TAG: Discounter
         run: |
-          echo "PAPERLESS_URL=${PAPERLESS_URL}"
           devbox run -- task test

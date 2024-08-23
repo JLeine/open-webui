@@ -26,6 +26,7 @@ class PaperlessDocumentLoaderTest(unittest.IsolatedAsyncioTestCase):
         response = await Tools().get_paperless_documents(documentTypeName)
         self.assertTrue("Query returned 0" in response)
 
+    @unittest.skip("Currently does not work on GH Actions")
     async def test_get_documents(self):
         documentType = os.getenv("PAPERLESS_TEST_DOCUMENT_TYPE")
         await self.assert_document_response(documentType, 8)
