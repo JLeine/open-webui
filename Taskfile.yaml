@@ -19,10 +19,14 @@ tasks:
 
   test:
     desc: "Run tests using pytest"
+    deps:
+      - install
     cmds:
       - poetry run pytest
 
   lint:
     desc: "Lint the code using flake8"
+    deps:
+      - install
     cmds:
       - poetry run flake8 open_webui_tools
