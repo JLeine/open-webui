@@ -1,0 +1,28 @@
+version: '3'
+dotenv: ['.env']
+tasks:
+  lock:
+    desc: Lock Poetry dependencies without updating them
+    run: once
+    cmds:
+      - poetry lock --no-update
+  install:
+    desc: "Install Python packages using Poetry"
+    run: once
+    deps:
+      - lock
+    cmds:
+      - poetry install
+
+  failure:
+    cmd: exit 1;
+
+  test:
+    desc: "Run tests using pytest"
+    cmds:
+      - poetry run pytest
+
+  lint:
+    desc: "Lint the code using flake8"
+    cmds:
+      - poetry run flake8
