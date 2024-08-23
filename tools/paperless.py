@@ -141,7 +141,7 @@ class Tools:
             documents = loader.load()
 
             if len(documents) == 0:
-                error_message = f"Query returned 0 for correspondent {correspondent} documentTypeName {documentTypeName} documentTag {documentTagName} month {created_month} year {created_year}"
+                error_message = f"Query returned 0 for correspondent {self.valves.PAPERLESS_URL} documentTypeName {documentTypeName} documentTag {documentTagName} month {created_month} year {created_year}"
                 await emitter.error_update(error_message)
                 return error_message
 
