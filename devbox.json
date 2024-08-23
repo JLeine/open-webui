@@ -1,0 +1,18 @@
+{
+  "$schema": "https://raw.githubusercontent.com/jetify-com/devbox/0.12.0/.schema/devbox.schema.json",
+  "name": "Langchain RAG POC",
+  "description": "Development environment for the langchain POC project",
+  "packages": [
+    "python@3.12.3",
+    "poetry@1.8.3",
+    "bat@0.24.0",
+    "go-task@3.38.0"
+  ],
+  "shell": {
+    "init_hook": [
+      "task install"
+    ],
+    "scripts": {
+    }
+  }
+}

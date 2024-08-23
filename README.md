@@ -1,4 +1,4 @@
-# open-webui tool
+# open-webui-tools
 
 This repo contains extensions for OpenWebUI, a UI client for LLMs. It contains tools I've developed mainly for my own
 use. Feel free to contribute whenever you like.

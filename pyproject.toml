@@ -1,0 +1,23 @@
+[tool.poetry]
+name = "open-webui-tools"
+version = "0.1.0"
+description = "A collection of open-webui-tools which I use for my own purposes."
+authors = ["Jonas Leine <j.leine@gmx.de>"]
+license = "MIT"
+readme = "README.md"
+
+
+[tool.poetry.dependencies]
+python = "^3.12"
+youtube-transcript-api = "^0.6.2"
+langchain-community = "^0.2.12"
+pytube = "^15.0.0"
+python-dotenv = "^1.0.1"
+
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.3.2"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
