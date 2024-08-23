@@ -5,7 +5,7 @@ on:
     types: [opened, synchronize, reopened]
 
 jobs:
-  lint:
+  test:
     runs-on: ubuntu-latest
 
     steps:
