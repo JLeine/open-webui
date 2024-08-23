@@ -16,5 +16,13 @@ jobs:
           enable-cache: true
 
       - name: Run python test
+        env:
+          PAPERLESS_URL: ${{ secrets.PAPERLESS_URL }}
+          PAPERLESS_API_KEY: ${{ secrets.PAPERLESS_API_KEY }}
+          PAPERLESS_TEST_CORRESPONDENT: ${{ secrets.PAPERLESS_TEST_CORRESPONDENT }}
+          PAPERLESS_TEST_DOCUMENT_TYPE: ${{ secrets.PAPERLESS_TEST_DOCUMENT_TYPE }}
+          PAPERLESS_TEST_MONTH: ${{ secrets.PAPERLESS_TEST_MONTH }}
+          PAPERLESS_TEST_TAG: ${{ secrets.PAPERLESS_TEST_TAG }}
+          PAPERLESS_TEST_YEAR: ${{ secrets.PAPERLESS_TEST_YEAR }}
         run: |
           devbox run -- task test
