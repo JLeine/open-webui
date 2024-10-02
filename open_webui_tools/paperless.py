@@ -2,7 +2,7 @@
 title: Paperless Document Searcher
 description: A Tool to interact with a running paperless server. Don't forghet to define the URL and API Token.
 author: Jonas Leine
-funding_url: https://github.com/open-webui
+funding_url: https://github.com/JLeine/open-webui
 version: 1.1.0
 license: MIT
 """
