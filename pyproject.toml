@@ -11,7 +11,7 @@ readme = "README.md"
 [tool.poetry.dependencies]
 python = "^3.12"
 youtube-transcript-api = "^0.6.2"
-langchain-community = "^0.2.12"
+langchain-community = "^0.3.0"
 pytube = "^15.0.0"
 python-dotenv = "^1.0.1"
 
