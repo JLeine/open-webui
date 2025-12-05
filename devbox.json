@@ -5,7 +5,7 @@
   "packages": [
     "python@3.12.3",
     "poetry@1.8.3",
-    "bat@0.24.0",
+    "bat@0.26.1",
     "go-task@3.38.0"
   ],
   "shell": {
