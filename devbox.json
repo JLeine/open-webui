@@ -3,7 +3,7 @@
   "name": "Langchain RAG POC",
   "description": "Development environment for the langchain POC project",
   "packages": [
-    "python@3.12.3",
+    "python@3.14.4",
     "poetry@1.8.3",
     "bat@0.24.0",
     "go-task@3.38.0"
