@@ -6,7 +6,7 @@
     "python@3.12.3",
     "poetry@1.8.3",
     "bat@0.24.0",
-    "go-task@3.38.0"
+    "go-task@3.53.1"
   ],
   "shell": {
     "init_hook": [
